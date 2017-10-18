@@ -61,9 +61,18 @@ def init_slider(slider):
     
 def init_time_labels(main_window):
     main_window.lblTime.setText('0s')
+    main_window.lblTime.setEnabled(True)
     main_window.lblMinTime.setEnabled(True)
     main_window.lblMaxTime.setEnabled(True)
     main_window.lblMaxTime.setText(str(main_window.sldTime.maximum())+'s')
+
+
+def init_time_buttons(main_window):
+    main_window.btnPause.setEnabled(True)
+    main_window.btnStop.setEnabled(True)
+    main_window.btnPlay.setEnabled(True)
+    main_window.btnSxArrow.setEnabled(True)
+    main_window.btnDxArrow.setEnabled(True)
 
 
 def get_id_payload(line):
@@ -96,4 +105,28 @@ def init_dict_canbus(dict_canbus):
             ids.add(c[0])
             values.append(c)
 
-    return
+
+def get_gps_values(line):
+    return {
+        'alt': line[1],
+        'lat': line[2],
+        'lon': line[3],
+        'spd': line[4]
+    }
+
+
+def init_dict_gps(dict_gps):
+    f = open(OUTPUT_FOLDER + GPS_FILE).readlines()
+
+    for l in f[1:]:
+        l = l.split(',')
+        d = get_gps_values(l)
+        s = int(math.ceil(float(l[0])))
+        dict_gps[s] = d
+
+    last_key = min(dict_gps)
+    for i in range(min(dict_gps), max(dict_gps)-1):
+        if i not in dict_gps.keys():
+            dict_gps[i] = dict_gps[last_key]
+        else:
+            last_key = i

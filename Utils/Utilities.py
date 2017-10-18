@@ -11,7 +11,6 @@ OUTPUT_FOLDER = 'log_files/'
 __version__ = "1.0"
 
 
-# Get the about text
 def get_about():
     return """<b>CANBUS Analyzer GUI</b> v{}
                 <p>Copyright &copy; 2010 Joe Bloggs.

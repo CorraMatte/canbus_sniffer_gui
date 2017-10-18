@@ -25,7 +25,6 @@ def init_time_labels(main_window):
 
 
 def init_time_buttons(main_window):
-    main_window.btnPause.setEnabled(True)
     main_window.btnStop.setEnabled(True)
     main_window.btnPlay.setEnabled(True)
     main_window.btnSxArrow.setEnabled(True)

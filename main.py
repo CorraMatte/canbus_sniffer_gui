@@ -4,9 +4,8 @@ import sys
 from Utils import Utilities, Init
 from PySide.QtGui import QApplication, QMainWindow, QMessageBox, QFileDialog
 from PySide.phonon import Phonon
-
+import threading
 from qgmap import *
-
 from ui_main import Ui_MainWindow
 
 
@@ -16,9 +15,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     __dict_gps_ = dict()
     __gmap_ = None
     __markers_ = set()
+    __playing_ = False
 
     def __init__(self, parent=None):
-        '''Mandatory initialisation of a class.'''
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         self.actionAbout.triggered.connect(self.show_about)
@@ -26,13 +25,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btnStop.clicked.connect(self.stop_slider)
         self.txtCANBUS.setText("Click File -> Open Archive and the select a valid"
                                "archive in order to start the analysis")
-        self.sldTime.valueChanged.connect(self.set_values_at_time)
+        self.sldTime.valueChanged.connect(self.load_contents)
         self.btnSxArrow.clicked.connect(self.decrease_time)
         self.btnDxArrow.clicked.connect(self.increase_time)
+        self.btnPlay.clicked.connect(self.play_slider)
+        self.btnPause.clicked.connect(self.pause_slider)
         self.__gmap_ = QGoogleMap(self.wdgGoogleMaps)
 
+    # Popup a box with about message.
     def show_about(self):
-        #Popup a box with about message.
         QMessageBox.about(self, "About CANBUS Analyzer", Utilities.get_about())
 
     def select_file(self):
@@ -62,50 +63,76 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #player = Phonon.VideoPlayer(Phonon.VideoCategory, self.wdgVideo)
         #player.play(Utilities.OUTPUT_FOLDER + 'video.mp4')
 
-    def set_values_at_time(self):
+    # Load new contents when time changes
+    def load_contents(self):
         time = int(self.sldTime.value())
+
+        # Clear displays
         self.txtCANBUS.setText('')
         self.txtGpsData.setText('')
         self.lblTime.setText(str(time)+'s')
-        #clear everything
+
+        # Nothing to load
         if time == 0:
             return
-        
+
+        # Select and show canbus data at certain time
         canbus_values = self.__dict_canbus_[time]
         text = '<table>'
         for v in canbus_values:
             text += '<tr><td><b>ID</b>:' + v[0] + ' <td><b>PAYLOAD</b>: ' + v[1] + '<br>'
         self.txtCANBUS.setText(text)
 
+        # Select GPS data at certain time if present
         if time > max(self.__dict_gps_):
             gps_value = self.__dict_gps_[max(self.__dict_gps_)]
         elif time < min(self.__dict_gps_):
             gps_value = None
         else:
             gps_value = self.__dict_gps_[time]
-        text = '<table>'
 
+        # Show GPS data
         if gps_value is not None:
-            text = '<tr><td><b>Longitude</b>: ' + gps_value['lon'] + '° '+\
+            text = '<table><tr><td><b>Longitude</b>: ' + gps_value['lon'] + '° '+\
             '<td><b>Latitude</b>: ' + gps_value['lat'] + '°<br>'+\
             '<tr><td><b>Altitude</b>: ' + gps_value['alt'] + 'm ' +\
             '<td><b>Speed</b>: ' + gps_value['spd'] + 'm/s<br>'
             self.__gmap_.addMarker(time, gps_value['lat'], gps_value['lon'])
             self.__markers_.add(time)
         else:
-            text= 'Data are not available'
+            text = 'Data are not available'
+        self.txtGpsData.setText(text)
 
+        # Remove following markers on Google Maps
         if self.__markers_ and time < max(self.__markers_):
             for i in range(time+1, max(self.__markers_)+1):
                 if i in self.__markers_:
                     self.__gmap_.deleteMarker(i)
                     self.__markers_.remove(i)
 
-        self.txtGpsData.setText(text)
+    def play_slider(self):
+        self.btnPlay.setEnabled(False)
+        self.btnPause.setEnabled(True)
+        self.__playing_ = True
+        self.thr_increase_slider()
+
+    # Thread containing the timer
+    def thr_increase_slider(self):
+        if self.__playing_:
+            threading.Timer(1.0, self.thr_increase_slider).start()
+            self.increase_time()
+
+    def pause_slider(self):
+        self.__playing_ = False
+        self.btnPlay.setEnabled(True)
+        self.btnPause.setEnabled(False)
 
     def stop_slider(self):
+        self.__playing_ = False
         self.sldTime.setValue(0)
-        self.setValuesAtTime()
+        for m in self.__markers_:
+            self.__gmap_.deleteMarker(m)
+        self.load_contents()
 
     def decrease_time(self):
         if self.sldTime.value() in self.__markers_:

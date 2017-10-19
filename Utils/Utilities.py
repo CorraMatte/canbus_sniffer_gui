@@ -11,6 +11,7 @@ OUTPUT_FOLDER = 'log_files/'
 __version__ = "1.0"
 
 
+# Get information string about the project
 def get_about():
     return """<b>CANBUS Analyzer GUI</b> v{}
                 <p>Copyright &copy; 2010 Joe Bloggs.
@@ -24,6 +25,7 @@ def get_about():
                                                 platform.system())
 
 
+# Extract files from the archive
 def extract_files(archive_name):
     try:
         if not os.path.exists(OUTPUT_FOLDER):
@@ -46,3 +48,11 @@ def extract_files(archive_name):
         return True
     except Exception:
         return False
+
+
+# Change seconds to the formatted time
+def get_time_from_seconds(time):
+    time = int(time)
+    m, s = divmod(time, 60)
+    h, m = divmod(m, 60)
+    return "%02d:%02d:%02d" % (h, m, s)

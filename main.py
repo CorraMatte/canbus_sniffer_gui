@@ -43,18 +43,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def select_file(self):
         self.__init_var_()
-        #archiveName = str(expanduser("~") + "/Test/Test completi/nuove_guide_031017/prima guida/test.gz")
-                        #QFileDialog.getOpenFileName(self,
-                         #                         "Open gzip Archive",
-                          #                        str(expanduser("~"),
-                           #                       "Archive File (*.gz)"
-                            #                      )[0]
-        #if archiveName == '':
-        #    return
+        archiveName = str(expanduser("~") + #"/Test/Test completi/nuove_guide_031017/prima guida/test.gz")
+                        QFileDialog.getOpenFileName(self,
+                                                 "Open gzip Archive",
+                                                 str(expanduser("~"),
+                                                  "Archive File (*.gz)"
+                                                  )[0]
+        if archiveName == '':
+            return
 
-        #if not Utilities.extract_files(archiveName):
-        #    QMessageBox.critical(self, "Error", "Impossible to extract the archive!")
-        #    return
+        if not Utilities.extract_files(archiveName):
+            QMessageBox.critical(self, "Error", "Impossible to extract the archive!")
+            return
 
         QMessageBox.information(self, "Information",
                                 "Archive extracted!\n"

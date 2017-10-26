@@ -2,10 +2,7 @@
 
 import sys
 from Utils import Utilities, Init
-from PySide.QtGui import QApplication, QMainWindow, QMessageBox, QFileDialog, \
-    QProgressBar
-from PySide.phonon import Phonon
-import ctypes
+from PySide.QtGui import QApplication, QMainWindow, QMessageBox, QFileDialog
 import threading
 from qgmap import *
 from ui_main import Ui_MainWindow
@@ -27,8 +24,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionAbout.triggered.connect(self.show_about)
         self.actionOpen_archive.triggered.connect(self.select_file)
         self.btnStop.clicked.connect(self.stop_slider)
-        self.txtCANBUS.setText("Click File -> Open Archive and the select a valid"
-                               "archive in order to start the analysis")
         self.sldTime.valueChanged.connect(self.load_contents)
         self.btnSxArrow.clicked.connect(self.decrease_time)
         self.btnDxArrow.clicked.connect(self.increase_time)
@@ -43,16 +38,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def select_file(self):
         self.__init_var_()
-        archiveName = str(expanduser("~") + #"/Test/Test completi/nuove_guide_031017/prima guida/test.gz")
-                        QFileDialog.getOpenFileName(self,
-                                                 "Open gzip Archive",
-                                                 str(expanduser("~"),
-                                                  "Archive File (*.gz)"
+        archive_name = QFileDialog.getOpenFileName(self,
+                                                   "Open gzip Archive",
+                                                   #str(expanduser("~") + "/Test/Test completi/nuove_guide_031017/prima guida"),
+                                                   str(expanduser("~")),
+                                                   "Archive File (*.gz)"
                                                   )[0]
-        if archiveName == '':
+
+        if archive_name == '':
             return
 
-        if not Utilities.extract_files(archiveName):
+        if not Utilities.extract_files(archive_name):
             QMessageBox.critical(self, "Error", "Impossible to extract the archive!")
             return
 
@@ -115,7 +111,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.__gmap_.deleteMarker(i)
                     self.__markers_.remove(i)
 
-        self.media_obj.seek(time)
+        # Time multiplies 1000 to get the seconds
+        self.media_obj.seek(time*1000)
 
     def play_slider(self):
         self.btnPlay.setEnabled(False)
@@ -153,7 +150,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init_var_(self):
         self.__dict_canbus_ = dict()
         self.__dict_gps_ = dict()
-        self.__gmap_ = None
         self.__markers_ = set()
         self.__playing_ = False
         self.media_obj = None

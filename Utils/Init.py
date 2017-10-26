@@ -30,17 +30,6 @@ def init_time_buttons(main_window):
     main_window.btnDxArrow.setEnabled(True)
 
 
-# Get id and payload from file line
-def get_id_payload(line):
-    id = line[2]
-    p = line[4]
-    payload = ''
-    for i in range(7):
-        payload += format((int(p[i*8:(i+1)*8-1],2)), '02X') + ' '
-
-    return [id, payload]
-
-
 # Create the canbus data structure in order to retrieve information at runtime
 # at O(1) cost
 def init_dict_canbus(dict_canbus):
@@ -50,7 +39,7 @@ def init_dict_canbus(dict_canbus):
     values = []
     for l in reversed(f[1:]):
         l = l.split(',')
-        c = get_id_payload(l)
+        c = Utilities.get_id_payload(l)
         s = int(math.ceil(float(l[0])))
 
         if sec != s:
@@ -64,15 +53,6 @@ def init_dict_canbus(dict_canbus):
             values.append(c)
 
 
-# Get GPS values from the file line
-def get_gps_values(line):
-    return {
-        'alt': line[1],
-        'lat': line[2],
-        'lon': line[3],
-        'spd': line[4]
-    }
-
 # Create the GPS data structure in order to retrieve information at runtime
 # at O(1) cost
 def init_dict_gps(dict_gps):
@@ -80,7 +60,7 @@ def init_dict_gps(dict_gps):
 
     for l in f[1:]:
         l = l.split(',')
-        d = get_gps_values(l)
+        d = Utilities.get_gps_values(l)
         s = int(math.ceil(float(l[0])))
         dict_gps[s] = d
 
@@ -106,7 +86,8 @@ def init_google_maps(gmap, dict_gps):
 
 # Create video and make it seekable
 def init_video(main_window):
-    file_path = Utilities.OUTPUT_FOLDER + Utilities.CAMERA_FILE
+    Utilities.convert_video_to_mp4()
+    file_path = Utilities.OUTPUT_FOLDER + Utilities.CAMERA_MP4_FILE
     media_src = Phonon.MediaSource(file_path)
     main_window.media_obj = Phonon.MediaObject(main_window.wdgVideo)
     main_window.media_obj.setCurrentSource(media_src)

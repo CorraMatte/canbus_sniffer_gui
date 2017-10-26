@@ -3,21 +3,27 @@ import pickle
 import gzip
 import os
 import PySide
+import ffmpy
 
 GPS_FILE = 'gps.log'
 CAMERA_FILE = 'video.h264'
+CAMERA_MP4_FILE = 'video.mp4'
 CAN_FILE = 'extracted.1.csv'
-OUTPUT_FOLDER = 'log_files/'
+OUTPUT_FOLDER = '/home/corra/Scrivania/log_files/'
 __version__ = "1.0"
 
 
 # Get information string about the project
 def get_about():
     return """<b>CANBUS Analyzer GUI</b> v{}
-                <p>Copyright &copy; 2010 Joe Bloggs.
+                <p>Copyright &copy; 2017 Matteo Corradini.
                 All rights reserved in accordance with GPL v2 or later 
                 - NO WARRANTIES! <p>This application can be used for
-                displaying platform details. <p>Python {} - PySide version {} 
+                displaying CANBUS data associated with GPS data and video. The
+                project could be found at the following GIT repository:
+                <a href='https://github.com/CorraMatte/buildroot-rpi3-sniffer'>
+                buildroot-rpi3-sniffer</a>.
+                <p>Python {} - PySide version {} 
                 - Qt version {} on {}""".format(__version__,
                                                 platform.python_version(),
                                                 PySide.__version__,
@@ -56,3 +62,37 @@ def get_time_from_seconds(time):
     m, s = divmod(time, 60)
     h, m = divmod(m, 60)
     return "%02d:%02d:%02d" % (h, m, s)
+
+
+# Get GPS values from the file line
+def get_gps_values(line):
+    return {
+        'alt': line[1],
+        'lat': line[2],
+        'lon': line[3],
+        'spd': line[4]
+    }
+
+
+# Get id and payload from file line
+def get_id_payload(line):
+    id = line[2]
+    p = line[4]
+    payload = ''
+    for i in range(7):
+        payload += format((int(p[i*8:(i+1)*8-1],2)), '02X') + ' '
+
+    return [id, payload]
+
+
+# Convert Video to MP4
+def convert_video_to_mp4():
+    if os.path.isfile(OUTPUT_FOLDER + CAMERA_MP4_FILE):
+        os.remove(OUTPUT_FOLDER + CAMERA_MP4_FILE)
+
+    ff = ffmpy.FFmpeg(
+        inputs={OUTPUT_FOLDER + CAMERA_FILE: None},
+        outputs={OUTPUT_FOLDER + CAMERA_MP4_FILE: None}
+    )
+
+    ff.run()

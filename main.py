@@ -1,4 +1,13 @@
 #!/usr/bin/python3.4
+#
+# Author: Matteo Corradini
+#
+# This application realizes a GUI with PySide in order to display the data
+# acquired with the logger. It is possible to play and stop the video, or
+# select the image frame by frame. The canbus data and the GPS data show the
+# last value captured in that moment.
+
+# IMPORT #######################################################################
 
 import sys
 from Utils import Utilities, Init
@@ -6,15 +15,17 @@ from PySide.QtGui import QApplication, QMainWindow, QMessageBox, QFileDialog
 import threading
 from qgmap import *
 from ui_main import Ui_MainWindow
-from os.path import expanduser
+import os
 
+
+# CLASSES ######################################################################
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    __dict_canbus_ = dict()
-    __dict_gps_ = dict()
-    __gmap_ = None
-    __markers_ = set()
     __playing_ = False
+    dict_canbus = dict()
+    dict_gps = dict()
+    gmap = None
+    markers = set()
     media_obj = None
     video_widget = None
 
@@ -29,8 +40,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btnDxArrow.clicked.connect(self.increase_time)
         self.btnPlay.clicked.connect(self.play_slider)
         self.btnPause.clicked.connect(self.pause_slider)
-        self.__gmap_ = QGoogleMap(self.wdgGoogleMaps)
-
+        self.gmap = QGoogleMap(self.wdgGoogleMaps)
+        self.lblTime.setVisible(False)
+        self.lblMaxTime.setVisible(False)
+        self.pgrLoadData.setVisible(False)
 
     # Popup a box with about message.
     def show_about(self):
@@ -40,8 +53,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__init_var_()
         archive_name = QFileDialog.getOpenFileName(self,
                                                    "Open gzip Archive",
-                                                   #str(expanduser("~") + "/Test/Test completi/nuove_guide_031017/prima guida"),
-                                                   str(expanduser("~")),
+                                                   #str(os.path.expanduser("~") + "/Test/Test completi/nuove_guide_031017/prima guida"),
+                                                   str(os.path.expanduser("~")),
                                                    "Archive File (*.gz)"
                                                   )[0]
 
@@ -52,17 +65,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.critical(self, "Error", "Impossible to extract the archive!")
             return
 
+        self.pgrLoadData.setVisible(True)
         QMessageBox.information(self, "Information",
                                 "Archive extracted!\n"
                                 "Wait that the archive is load")
-        Init.init_dict_canbus(self.__dict_canbus_)
-        Init.init_slider(self.sldTime, max(self.__dict_canbus_))
+
+        self.txtCANBUS.setText('')
+        self.txtGpsData.setText('')
         Init.init_time_labels(self)
-        Init.init_dict_gps(self.__dict_gps_)
-        Init.init_google_maps(self.__gmap_, self.__dict_gps_)
+
+        Init.init_dict_canbus(self.dict_canbus)
+        Init.init_dict_gps(self.dict_gps)
+        Init.init_google_maps(self.gmap)
+        Init.init_slider(self.sldTime)
         Init.init_time_buttons(self)
         Init.init_video(self)
-        self.txtCANBUS.setText('')
+        self.gmap.centerAt(float(self.dict_gps[min(self.dict_gps)]['lat']),
+                            float(self.dict_gps[min(self.dict_gps)]['lon']))
+        self.sldTime.setMaximum(max(self.dict_canbus))
+        self.lblMaxTime.setText(
+            Utilities.get_time_from_seconds(str(self.sldTime.maximum()))
+        )
+
+        self.pgrLoadData.setVisible(False)
 
     # Load new contents when time changes
     def load_contents(self):
@@ -78,19 +103,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
 
         # Select and show canbus data at certain time
-        canbus_values = self.__dict_canbus_[time]
+        canbus_values = self.dict_canbus[time]
         text = '<table>'
         for v in canbus_values:
             text += '<tr><td><b>ID</b>:' + v[0] + ' <td><b>PAYLOAD</b>: ' + v[1] + '<br>'
         self.txtCANBUS.setText(text)
 
         # Select GPS data at certain time if present
-        if time > max(self.__dict_gps_):
-            gps_value = self.__dict_gps_[max(self.__dict_gps_)]
-        elif time < min(self.__dict_gps_):
+        if time > max(self.dict_gps):
+            gps_value = self.dict_gps[max(self.dict_gps)]
+        elif time < min(self.dict_gps):
             gps_value = None
         else:
-            gps_value = self.__dict_gps_[time]
+            gps_value = self.dict_gps[time]
 
         # Show GPS data
         if gps_value is not None:
@@ -98,18 +123,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 '<td><b>Latitude</b>: ' + gps_value['lat'] + '°<br>'+\
                 '<tr><td><b>Altitude</b>: ' + gps_value['alt'] + 'm ' +\
                 '<td><b>Speed</b>: ' + gps_value['spd'] + 'm/s<br>'
-            self.__gmap_.addMarker(time, gps_value['lat'], gps_value['lon'])
-            self.__markers_.add(time)
+            self.gmap.addMarker(time, gps_value['lat'], gps_value['lon'])
+            self.markers.add(time)
         else:
             text = 'Data are not available'
         self.txtGpsData.setText(text)
 
         # Remove following markers on Google Maps
-        if self.__markers_ and time < max(self.__markers_):
-            for i in range(time+1, max(self.__markers_)+1):
-                if i in self.__markers_:
-                    self.__gmap_.deleteMarker(i)
-                    self.__markers_.remove(i)
+        if self.markers and time < max(self.markers):
+            for i in range(time+1, max(self.markers)+1):
+                if i in self.markers:
+                    self.gmap.deleteMarker(i)
+                    self.markers.remove(i)
 
         # Time multiplies 1000 to get the seconds
         self.media_obj.seek(time*1000)
@@ -134,27 +159,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def stop_slider(self):
         self.__playing_ = False
         self.sldTime.setValue(0)
-        for m in self.__markers_:
-            self.__gmap_.deleteMarker(m)
+        for m in self.markers:
+            self.gmap.deleteMarker(m)
         self.load_contents()
 
     def decrease_time(self):
-        if self.sldTime.value() in self.__markers_:
-            self.__gmap_.deleteMarker(self.sldTime.value())
-            self.__markers_.remove(self.sldTime.value())
+        if self.sldTime.value() in self.markers:
+            self.gmap.deleteMarker(self.sldTime.value())
+            self.markers.remove(self.sldTime.value())
         self.sldTime.setValue(self.sldTime.value() - 1)
 
     def increase_time(self):
         self.sldTime.setValue(self.sldTime.value() + 1)
 
     def __init_var_(self):
-        self.__dict_canbus_ = dict()
-        self.__dict_gps_ = dict()
-        self.__markers_ = set()
+        self.dict_canbus = dict()
+        self.dict_gps = dict()
+        self.markers = set()
         self.__playing_ = False
         self.media_obj = None
         self.video_widget = None
 
+
+# MAIN #########################################################################
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

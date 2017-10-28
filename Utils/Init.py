@@ -1,25 +1,23 @@
 import PySide
-from PySide.phonon import Phonon
 import math
+from PySide.phonon import Phonon
 from Utils import Utilities
 
 
 # Set slider settings
-def init_slider(slider, maximum):
+def init_slider(slider):
     slider.setMinimum(0)
-    slider.setMaximum(maximum)
     slider.setValue(0)
     slider.setPageStep(1)
 
 
 # Enable and set timer labels
 def init_time_labels(main_window):
+    main_window.lblTime.setVisible(True)
+    main_window.lblMaxTime.setVisible(True)
     main_window.lblTime.setEnabled(True)
     main_window.lblMinTime.setEnabled(True)
     main_window.lblMaxTime.setEnabled(True)
-    main_window.lblMaxTime.setText(
-        Utilities.get_time_from_seconds(str(main_window.sldTime.maximum()))
-    )
 
 
 # Enable timer buttons
@@ -65,7 +63,7 @@ def init_dict_gps(dict_gps):
         dict_gps[s] = d
 
     last_key = min(dict_gps)
-    for i in range(min(dict_gps), max(dict_gps)-1):
+    for i in range(min(dict_gps), max(dict_gps)):
         if i not in dict_gps.keys():
             dict_gps[i] = dict_gps[last_key]
         else:
@@ -73,14 +71,12 @@ def init_dict_gps(dict_gps):
 
 
 # Create Google Maps witht centered at the initial position
-def init_google_maps(gmap, dict_gps):
+def init_google_maps(gmap):
     gmap.setSizePolicy(
         PySide.QtGui.QSizePolicy.MinimumExpanding,
         PySide.QtGui.QSizePolicy.MinimumExpanding
     )
     gmap.waitUntilReady()
-    gmap.centerAt(float(dict_gps[min(dict_gps)]['lat']),
-                  float(dict_gps[min(dict_gps)]['lon']))
     gmap.setZoom(13)
 
 
@@ -93,7 +89,7 @@ def init_video(main_window):
     main_window.media_obj.setCurrentSource(media_src)
     main_window.video_widget = Phonon.VideoWidget(main_window.wdgVideo)
     Phonon.createPath(main_window.media_obj, main_window.video_widget)
+    main_window.video_widget.setGeometry(main_window.wdgVideo.geometry())
     main_window.video_widget.show()
-    main_window.video_widget.fullScreen = True
     main_window.media_obj.play()
     main_window.media_obj.pause()

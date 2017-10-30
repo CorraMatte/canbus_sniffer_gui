@@ -3,12 +3,10 @@ import pickle
 import gzip
 import os
 import PySide
-import ffmpy
 
 GPS_FILE = 'gps.log'
-CAMERA_FILE = 'video.h264'
-CAMERA_MP4_FILE = 'video.mp4'
-CAN_FILE = 'extracted.1.csv'
+CAMERA_FILE = 'video.mp4'
+CAN_FILE = 'extracted.csv'
 OUTPUT_FOLDER = '/home/corra/Scrivania/log_files/'
 __version__ = "1.0"
 
@@ -83,16 +81,3 @@ def get_id_payload(line):
         payload += format((int(p[i*8:(i+1)*8-1],2)), '02X') + ' '
 
     return [id, payload]
-
-
-# Convert Video to MP4
-def convert_video_to_mp4():
-    if os.path.isfile(OUTPUT_FOLDER + CAMERA_MP4_FILE):
-        os.remove(OUTPUT_FOLDER + CAMERA_MP4_FILE)
-
-    ff = ffmpy.FFmpeg(
-        inputs={OUTPUT_FOLDER + CAMERA_FILE: None},
-        outputs={OUTPUT_FOLDER + CAMERA_MP4_FILE: None}
-    )
-
-    ff.run()

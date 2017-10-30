@@ -82,8 +82,7 @@ def init_google_maps(gmap):
 
 # Create video and make it seekable
 def init_video(main_window):
-    Utilities.convert_video_to_mp4()
-    file_path = Utilities.OUTPUT_FOLDER + Utilities.CAMERA_MP4_FILE
+    file_path = Utilities.OUTPUT_FOLDER + Utilities.CAMERA_FILE
     media_src = Phonon.MediaSource(file_path)
     main_window.media_obj = Phonon.MediaObject(main_window.wdgVideo)
     main_window.media_obj.setCurrentSource(media_src)

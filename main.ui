@@ -114,7 +114,7 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../../../.designer/backup/images/play.png</normaloff>../../../../.designer/backup/images/play.png</iconset>
+      <normaloff>images/play.png</normaloff>images/play.png</iconset>
     </property>
    </widget>
    <widget class="QPushButton" name="btnStop">
@@ -134,7 +134,7 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../../../.designer/backup/images/stop.png</normaloff>../../../../.designer/backup/images/stop.png</iconset>
+      <normaloff>images/stop.png</normaloff>images/stop.png</iconset>
     </property>
    </widget>
    <widget class="QPushButton" name="btnPause">
@@ -154,7 +154,7 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../../../.designer/backup/images/pause.png</normaloff>../../../../.designer/backup/images/pause.png</iconset>
+      <normaloff>images/pause.png</normaloff>images/pause.png</iconset>
     </property>
    </widget>
    <widget class="QPushButton" name="btnSxArrow">
@@ -174,7 +174,7 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../../../.designer/backup/images/sx_arrow.png</normaloff>../../../../.designer/backup/images/sx_arrow.png</iconset>
+      <normaloff>images/sx_arrow.png</normaloff>images/sx_arrow.png</iconset>
     </property>
    </widget>
    <widget class="QPushButton" name="btnDxArrow">
@@ -194,7 +194,7 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../../../.designer/backup/images/dx_arrow.png</normaloff>../../../../.designer/backup/images/dx_arrow.png</iconset>
+      <normaloff>images/dx_arrow.png</normaloff>images/dx_arrow.png</iconset>
     </property>
    </widget>
    <widget class="QSlider" name="sldTime">
@@ -215,7 +215,7 @@ p, li { white-space: pre-wrap; }
      <rect>
       <x>0</x>
       <y>10</y>
-      <width>481</width>
+      <width>491</width>
       <height>381</height>
      </rect>
     </property>

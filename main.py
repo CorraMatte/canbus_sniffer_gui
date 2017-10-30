@@ -53,7 +53,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__init_var_()
         archive_name = QFileDialog.getOpenFileName(self,
                                                    "Open gzip Archive",
-                                                   #str(os.path.expanduser("~") + "/Test/Test completi/nuove_guide_031017/prima guida"),
                                                    str(os.path.expanduser("~")),
                                                    "Archive File (*.gz)"
                                                   )[0]
@@ -70,15 +69,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                 "Archive extracted!\n"
                                 "Wait that the archive is load")
 
-        self.txtCANBUS.setText('')
-        self.txtGpsData.setText('')
-        Init.init_time_labels(self)
-
+        # Init data structures
         Init.init_dict_canbus(self.dict_canbus)
         Init.init_dict_gps(self.dict_gps)
         Init.init_google_maps(self.gmap)
-        Init.init_slider(self.sldTime)
-        Init.init_time_buttons(self)
         Init.init_video(self)
         self.gmap.centerAt(float(self.dict_gps[min(self.dict_gps)]['lat']),
                             float(self.dict_gps[min(self.dict_gps)]['lon']))
@@ -86,6 +80,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.lblMaxTime.setText(
             Utilities.get_time_from_seconds(str(self.sldTime.maximum()))
         )
+
+        # Init interface objects
+        self.txtCANBUS.setText('')
+        self.txtGpsData.setText('')
+        Init.init_time_labels(self)
+        Init.init_slider(self.sldTime)
+        Init.init_time_buttons(self)
 
         self.pgrLoadData.setVisible(False)
 
@@ -162,6 +163,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for m in self.markers:
             self.gmap.deleteMarker(m)
         self.load_contents()
+        self.media_obj.seek(0)
 
     def decrease_time(self):
         if self.sldTime.value() in self.markers:

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main.ui'
 #
-# Created: Sat Oct 28 11:03:32 2017
+# Created: Mon Oct 30 09:51:48 2017
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -41,7 +41,7 @@ class Ui_MainWindow(object):
         self.btnPlay.setGeometry(QtCore.QRect(140, 519, 31, 31))
         self.btnPlay.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../../.designer/backup/images/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("images/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnPlay.setIcon(icon)
         self.btnPlay.setObjectName("btnPlay")
         self.btnStop = QtGui.QPushButton(self.centralwidget)
@@ -49,7 +49,7 @@ class Ui_MainWindow(object):
         self.btnStop.setGeometry(QtCore.QRect(240, 519, 31, 31))
         self.btnStop.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("../../../../.designer/backup/images/stop.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("images/stop.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnStop.setIcon(icon1)
         self.btnStop.setObjectName("btnStop")
         self.btnPause = QtGui.QPushButton(self.centralwidget)
@@ -57,7 +57,7 @@ class Ui_MainWindow(object):
         self.btnPause.setGeometry(QtCore.QRect(190, 520, 31, 31))
         self.btnPause.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("../../../../.designer/backup/images/pause.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("images/pause.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnPause.setIcon(icon2)
         self.btnPause.setObjectName("btnPause")
         self.btnSxArrow = QtGui.QPushButton(self.centralwidget)
@@ -65,7 +65,7 @@ class Ui_MainWindow(object):
         self.btnSxArrow.setGeometry(QtCore.QRect(10, 490, 31, 31))
         self.btnSxArrow.setText("")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("../../../../.designer/backup/images/sx_arrow.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("images/sx_arrow.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnSxArrow.setIcon(icon3)
         self.btnSxArrow.setObjectName("btnSxArrow")
         self.btnDxArrow = QtGui.QPushButton(self.centralwidget)
@@ -73,7 +73,7 @@ class Ui_MainWindow(object):
         self.btnDxArrow.setGeometry(QtCore.QRect(900, 490, 31, 31))
         self.btnDxArrow.setText("")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("../../../../.designer/backup/images/dx_arrow.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap("images/dx_arrow.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnDxArrow.setIcon(icon4)
         self.btnDxArrow.setObjectName("btnDxArrow")
         self.sldTime = QtGui.QSlider(self.centralwidget)
@@ -81,7 +81,7 @@ class Ui_MainWindow(object):
         self.sldTime.setOrientation(QtCore.Qt.Horizontal)
         self.sldTime.setObjectName("sldTime")
         self.wdgVideo = QtGui.QWidget(self.centralwidget)
-        self.wdgVideo.setGeometry(QtCore.QRect(0, 10, 481, 381))
+        self.wdgVideo.setGeometry(QtCore.QRect(0, 10, 491, 381))
         self.wdgVideo.setObjectName("wdgVideo")
         self.txtGpsData = QtGui.QTextEdit(self.centralwidget)
         self.txtGpsData.setGeometry(QtCore.QRect(0, 400, 491, 71))

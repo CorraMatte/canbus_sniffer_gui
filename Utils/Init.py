@@ -30,9 +30,10 @@ def init_time_buttons(main_window):
 
 # Create the canbus data structure in order to retrieve information at runtime
 # at O(1) cost
-def init_dict_canbus(dict_canbus):
+def init_dict_canbus(dict_canbus, progressBar):
     f = open(Utilities.OUTPUT_FOLDER + Utilities.CAN_FILE).readlines()
     sec = int(math.ceil(float(f[-1].split(',')[0])))
+    step = int(sec / 100)
     ids = set()
     values = []
     for l in reversed(f[1:]):
@@ -45,6 +46,8 @@ def init_dict_canbus(dict_canbus):
             sec = s
             ids = set()
             values = []
+            if sec % step == 0:
+                progressBar.setValue(progressBar.value() + 1)
 
         if c[0] not in ids:
             ids.add(c[0])
@@ -53,7 +56,7 @@ def init_dict_canbus(dict_canbus):
 
 # Create the GPS data structure in order to retrieve information at runtime
 # at O(1) cost
-def init_dict_gps(dict_gps):
+def init_dict_gps(dict_gps, progressBar):
     f = open(Utilities.OUTPUT_FOLDER + Utilities.GPS_FILE).readlines()
 
     for l in f[1:]:
@@ -77,7 +80,7 @@ def init_google_maps(gmap):
         PySide.QtGui.QSizePolicy.MinimumExpanding
     )
     gmap.waitUntilReady()
-    gmap.setZoom(13)
+    gmap.setZoom(12)
 
 
 # Create video and make it seekable

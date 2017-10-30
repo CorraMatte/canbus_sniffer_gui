@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main.ui'
 #
-# Created: Mon Oct 30 09:51:48 2017
+# Created: Mon Oct 30 19:40:56 2017
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -92,7 +92,7 @@ class Ui_MainWindow(object):
         self.wdgGoogleMaps.setObjectName("wdgGoogleMaps")
         self.pgrLoadData = QtGui.QProgressBar(self.centralwidget)
         self.pgrLoadData.setGeometry(QtCore.QRect(350, 520, 471, 23))
-        self.pgrLoadData.setMaximum(0)
+        self.pgrLoadData.setMaximum(100)
         self.pgrLoadData.setProperty("value", -1)
         self.pgrLoadData.setObjectName("pgrLoadData")
         MainWindow.setCentralWidget(self.centralwidget)

@@ -55,33 +55,35 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                                    "Open gzip Archive",
                                                    str(os.path.expanduser("~")),
                                                    "Archive File (*.gz)"
-                                                  )[0]
+                                                   )[0]
 
         if archive_name == '':
             return
 
+        self.pgrLoadData.setVisible(True)
         if not Utilities.extract_files(archive_name):
-            QMessageBox.critical(self, "Error", "Impossible to extract the archive!")
+            QMessageBox.critical(self, "Error",
+                                 "Impossible to extract the archive!")
+            self.pgrLoadData.setVisible(False)
             return
 
-        self.pgrLoadData.setVisible(True)
         QMessageBox.information(self, "Information",
                                 "Archive extracted!\n"
                                 "Wait that the archive is load")
 
         # Init data structures
-        Init.init_dict_canbus(self.dict_canbus)
-        Init.init_dict_gps(self.dict_gps)
+        Init.init_dict_canbus(self.dict_canbus, self.pgrLoadData)
+        Init.init_dict_gps(self.dict_gps, self.pgrLoadData)
         Init.init_google_maps(self.gmap)
         Init.init_video(self)
+
+        # Init interface objects
         self.gmap.centerAt(float(self.dict_gps[min(self.dict_gps)]['lat']),
-                            float(self.dict_gps[min(self.dict_gps)]['lon']))
+                           float(self.dict_gps[min(self.dict_gps)]['lon']))
         self.sldTime.setMaximum(max(self.dict_canbus))
         self.lblMaxTime.setText(
             Utilities.get_time_from_seconds(str(self.sldTime.maximum()))
         )
-
-        # Init interface objects
         self.txtCANBUS.setText('')
         self.txtGpsData.setText('')
         Init.init_time_labels(self)
@@ -107,7 +109,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         canbus_values = self.dict_canbus[time]
         text = '<table>'
         for v in canbus_values:
-            text += '<tr><td><b>ID</b>:' + v[0] + ' <td><b>PAYLOAD</b>: ' + v[1] + '<br>'
+            text += '<tr><td><b>ID</b>:' + v[0] + ' <td><b>PAYLOAD</b>: ' + v[
+                1] + '<br>'
         self.txtCANBUS.setText(text)
 
         # Select GPS data at certain time if present
@@ -120,10 +123,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Show GPS data
         if gps_value is not None:
-            text = '<table><tr><td><b>Longitude</b>: ' + gps_value['lon'] + '° '+\
-                '<td><b>Latitude</b>: ' + gps_value['lat'] + '°<br>'+\
-                '<tr><td><b>Altitude</b>: ' + gps_value['alt'] + 'm ' +\
-                '<td><b>Speed</b>: ' + gps_value['spd'] + 'm/s<br>'
+            text = '<table><tr><td><b>Longitude</b>: ' + gps_value[
+                'lon'] + '° ' + \
+                   '<td><b>Latitude</b>: ' + gps_value['lat'] + '°<br>' + \
+                   '<tr><td><b>Altitude</b>: ' + gps_value['alt'] + 'm ' + \
+                   '<td><b>Speed</b>: ' + gps_value['spd'] + 'm/s<br>'
             self.gmap.addMarker(time, gps_value['lat'], gps_value['lon'])
             self.markers.add(time)
         else:
@@ -132,13 +136,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Remove following markers on Google Maps
         if self.markers and time < max(self.markers):
-            for i in range(time+1, max(self.markers)+1):
+            for i in range(time + 1, max(self.markers) + 1):
                 if i in self.markers:
                     self.gmap.deleteMarker(i)
                     self.markers.remove(i)
 
         # Time multiplies 1000 to get the seconds
-        self.media_obj.seek(time*1000)
+        self.media_obj.seek(time * 1000)
 
     def play_slider(self):
         self.btnPlay.setEnabled(False)

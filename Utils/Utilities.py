@@ -7,7 +7,7 @@ import PySide
 GPS_FILE = 'gps.log'
 CAMERA_FILE = 'video.mp4'
 CAN_FILE = 'extracted.csv'
-OUTPUT_FOLDER = '/home/corra/Scrivania/log_files/'
+OUTPUT_FOLDER = 'log_files/'
 __version__ = "1.0"
 
 

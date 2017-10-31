@@ -20,7 +20,12 @@ def get_about():
                 displaying CANBUS data associated with GPS data and video. The
                 project could be found at the following GIT repository:
                 <a href='https://github.com/CorraMatte/buildroot-rpi3-sniffer'>
-                buildroot-rpi3-sniffer</a>.
+                buildroot-rpi3-sniffer</a>. <br> 
+                In order to show the data in the
+                GUI, it is needed select a valid archive from the menù:
+                File -> Open Archive. If the archive would be valid, all the
+                data will be show on the interface. Otherwise an error message
+                would be show and it is needed to select another archive.
                 <p>Python {} - PySide version {} 
                 - Qt version {} on {}""".format(__version__,
                                                 platform.python_version(),

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main.ui'
 #
-# Created: Mon Oct 30 19:40:56 2017
+# Created: Tue Oct 31 10:55:12 2017
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -81,14 +81,14 @@ class Ui_MainWindow(object):
         self.sldTime.setOrientation(QtCore.Qt.Horizontal)
         self.sldTime.setObjectName("sldTime")
         self.wdgVideo = QtGui.QWidget(self.centralwidget)
-        self.wdgVideo.setGeometry(QtCore.QRect(0, 10, 491, 381))
+        self.wdgVideo.setGeometry(QtCore.QRect(0, 0, 491, 391))
         self.wdgVideo.setObjectName("wdgVideo")
         self.txtGpsData = QtGui.QTextEdit(self.centralwidget)
         self.txtGpsData.setGeometry(QtCore.QRect(0, 400, 491, 71))
         self.txtGpsData.setReadOnly(True)
         self.txtGpsData.setObjectName("txtGpsData")
         self.wdgGoogleMaps = QtGui.QWidget(self.centralwidget)
-        self.wdgGoogleMaps.setGeometry(QtCore.QRect(500, 180, 451, 291))
+        self.wdgGoogleMaps.setGeometry(QtCore.QRect(500, 190, 451, 281))
         self.wdgGoogleMaps.setObjectName("wdgGoogleMaps")
         self.pgrLoadData = QtGui.QProgressBar(self.centralwidget)
         self.pgrLoadData.setGeometry(QtCore.QRect(350, 520, 471, 23))

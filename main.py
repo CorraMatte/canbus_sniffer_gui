@@ -84,8 +84,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.lblMaxTime.setText(
             Utilities.get_time_from_seconds(str(self.sldTime.maximum()))
         )
-        self.txtCANBUS.setText('')
-        self.txtGpsData.setText('')
+        self.txtCANBUS.setText('The <b>CANBUS</b> messages will shown here')
+        self.txtGpsData.setText('The <b>GPS</b> data will shown here')
         Init.init_time_labels(self)
         Init.init_slider(self.sldTime)
         Init.init_time_buttons(self)
@@ -97,12 +97,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         time = int(self.sldTime.value())
 
         # Clear displays
-        self.txtCANBUS.setText('')
-        self.txtGpsData.setText('')
         self.lblTime.setText(Utilities.get_time_from_seconds(time))
 
         # Nothing to load
         if time == 0:
+            self.txtCANBUS.setText('')
+            self.txtGpsData.setText('')
             return
 
         # Select and show canbus data at certain time
@@ -162,7 +162,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btnPause.setEnabled(False)
 
     def stop_slider(self):
-        self.__playing_ = False
+        self.pause_slider()
         self.sldTime.setValue(0)
         for m in self.markers:
             self.gmap.deleteMarker(m)

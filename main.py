@@ -84,8 +84,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.lblMaxTime.setText(
             Utilities.get_time_from_seconds(str(self.sldTime.maximum()))
         )
-        self.txtCANBUS.setText('The <b>CANBUS</b> messages will shown here')
-        self.txtGpsData.setText('The <b>GPS</b> data will shown here')
+        self.txtCANBUS.setText('<center>The <b>CANBUS</b> messages will '
+                               'shown here</center>')
+        self.txtGpsData.setText('<center>The <b>GPS</b> data will '
+                                'shown here</center>')
         Init.init_time_labels(self)
         Init.init_slider(self.sldTime)
         Init.init_time_buttons(self)

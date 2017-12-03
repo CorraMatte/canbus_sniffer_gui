@@ -16,7 +16,6 @@ def init_time_labels(main_window):
     main_window.lblTime.setVisible(True)
     main_window.lblMaxTime.setVisible(True)
     main_window.lblTime.setEnabled(True)
-    main_window.lblMinTime.setEnabled(True)
     main_window.lblMaxTime.setEnabled(True)
 
 

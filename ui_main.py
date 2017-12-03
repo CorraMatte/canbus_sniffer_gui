@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main.ui'
 #
-# Created: Sun Dec  3 15:19:51 2017
+# Created: Sun Dec  3 15:48:42 2017
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -22,16 +22,12 @@ class Ui_MainWindow(object):
         self.line.setObjectName("line")
         self.lblTime = QtGui.QLabel(self.centralwidget)
         self.lblTime.setEnabled(False)
-        self.lblTime.setGeometry(QtCore.QRect(280, 520, 71, 21))
+        self.lblTime.setGeometry(QtCore.QRect(50, 510, 71, 21))
         self.lblTime.setObjectName("lblTime")
         self.txtCANBUS = QtGui.QTextEdit(self.centralwidget)
-        self.txtCANBUS.setGeometry(QtCore.QRect(500, 10, 451, 171))
+        self.txtCANBUS.setGeometry(QtCore.QRect(500, 0, 451, 181))
         self.txtCANBUS.setReadOnly(True)
         self.txtCANBUS.setObjectName("txtCANBUS")
-        self.lblMinTime = QtGui.QLabel(self.centralwidget)
-        self.lblMinTime.setEnabled(True)
-        self.lblMinTime.setGeometry(QtCore.QRect(50, 510, 20, 20))
-        self.lblMinTime.setObjectName("lblMinTime")
         self.lblMaxTime = QtGui.QLabel(self.centralwidget)
         self.lblMaxTime.setEnabled(False)
         self.lblMaxTime.setGeometry(QtCore.QRect(830, 510, 61, 16))
@@ -81,7 +77,7 @@ class Ui_MainWindow(object):
         self.sldTime.setOrientation(QtCore.Qt.Horizontal)
         self.sldTime.setObjectName("sldTime")
         self.wdgVideo = QtGui.QWidget(self.centralwidget)
-        self.wdgVideo.setGeometry(QtCore.QRect(0, 10, 491, 381))
+        self.wdgVideo.setGeometry(QtCore.QRect(0, 0, 491, 391))
         self.wdgVideo.setObjectName("wdgVideo")
         self.txtGpsData = QtGui.QTextEdit(self.centralwidget)
         self.txtGpsData.setGeometry(QtCore.QRect(0, 400, 491, 71))
@@ -128,14 +124,13 @@ class Ui_MainWindow(object):
 "</style></head><body style=\" font-family:\'Sans\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'DejaVu Sans Mono\'; color:#000000;\">Click </span><span style=\" font-family:\'DejaVu Sans Mono\'; font-weight:600; color:#000000;\">&quot;File&quot;-&gt;&quot;Open Archive&quot;</span><span style=\" font-family:\'DejaVu Sans Mono\'; color:#000000;\"> and select a valid archive in order to start the analysis</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'DejaVu Sans Mono\'; color:#000000; background-color:#ffffff;\"><br /></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;\"><span style=\" font-family:\'DejaVu Sans Mono\'; color:#000000; background-color:#ffffff;\">The </span><span style=\" font-family:\'DejaVu Sans Mono\'; font-weight:600; color:#000000; background-color:#ffffff;\">CANBUS</span><span style=\" font-family:\'DejaVu Sans Mono\'; color:#000000; background-color:#ffffff;\"> messages will shown here</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.lblMinTime.setText(QtGui.QApplication.translate("MainWindow", "0s", None, QtGui.QApplication.UnicodeUTF8))
+"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;\"><span style=\" font-family:\'DejaVu Sans Mono\'; color:#000000; background-color:#ffffff;\">The </span><span style=\" font-family:\'DejaVu Sans Mono\'; font-weight:600; color:#000000; background-color:#ffffff;\">CANBUS</span><span style=\" font-family:\'DejaVu Sans Mono\'; color:#000000; background-color:#ffffff;\"> messages will shown here</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.lblMaxTime.setText(QtGui.QApplication.translate("MainWindow", "00:00:00", None, QtGui.QApplication.UnicodeUTF8))
         self.txtGpsData.setHtml(QtGui.QApplication.translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Sans\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">The <span style=\" font-weight:600;\">GPS</span> data will shown here</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">The <span style=\" font-weight:600;\">GPS</span> data will shown here</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.infoMenu.setTitle(QtGui.QApplication.translate("MainWindow", "?", None, QtGui.QApplication.UnicodeUTF8))
         self.actionOpen_archive.setText(QtGui.QApplication.translate("MainWindow", "Open archive", None, QtGui.QApplication.UnicodeUTF8))
